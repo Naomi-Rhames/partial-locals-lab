@@ -13,7 +13,7 @@ class Classroom < ActiveRecord::Base
   has_many :classroom_students
   has_many :students, through: :classroom_students
 
-  def oldest_student
-    students.where("birthday is not null").order("birthday asc").first
+  def self.search(query)
+    query.present? ? self.all.select { |student| student.name.downcase.include?(query.downcase) } : self.all
   end
 end
